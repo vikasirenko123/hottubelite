@@ -1,125 +1,223 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Jacuzzi</title>
 
-<title>STA Tattoo Studio</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #111;
+    }
 
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;}
+    canvas {
+      display: block;
+    }
 
-html {
-  scroll-behavior: smooth;
+    .title {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      color: white;
+      font-family: Arial, sans-serif;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="title">
+  <h1>Hot Tub Elite</h1>
+  <p>3D Jacuzzi Visualization</p>
+</div>
+
+<script type="module">
+
+import * as THREE from
+'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js';
+
+import { OrbitControls } from
+'https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/controls/OrbitControls.js';
+
+
+// СЦЕНА
+const scene = new THREE.Scene();
+
+scene.background = new THREE.Color(0x101820);
+
+
+// КАМЕРА
+const camera = new THREE.PerspectiveCamera(
+  45,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+camera.position.set(5, 4, 6);
+
+
+// РЕНДЕР
+const renderer = new THREE.WebGLRenderer({
+  antialias: true
+});
+
+renderer.setSize(
+  window.innerWidth,
+  window.innerHeight
+);
+
+renderer.setPixelRatio(
+  Math.min(window.devicePixelRatio, 2)
+);
+
+document.body.appendChild(renderer.domElement);
+
+
+// УПРАВЛЕНИЕ МЫШКОЙ
+const controls = new OrbitControls(
+  camera,
+  renderer.domElement
+);
+
+controls.enableDamping = true;
+
+
+// СВЕТ
+const ambientLight = new THREE.AmbientLight(
+  0xffffff,
+  1.5
+);
+
+scene.add(ambientLight);
+
+const light = new THREE.DirectionalLight(
+  0xffffff,
+  3
+);
+
+light.position.set(5, 8, 5);
+
+scene.add(light);
+
+
+// ОСНОВА ДЖАКУЗИ
+const tubGeometry =
+  new THREE.CylinderGeometry(
+    2,
+    2,
+    1.2,
+    64
+  );
+
+const tubMaterial =
+  new THREE.MeshStandardMaterial({
+    color: 0xeeeeee,
+    roughness: 0.35,
+    metalness: 0.1
+  });
+
+const tub =
+  new THREE.Mesh(
+    tubGeometry,
+    tubMaterial
+  );
+
+scene.add(tub);
+
+
+// ВОДА
+const waterGeometry =
+  new THREE.CylinderGeometry(
+    1.75,
+    1.75,
+    0.08,
+    64
+  );
+
+const waterMaterial =
+  new THREE.MeshPhysicalMaterial({
+    color: 0x00aaff,
+    transparent: true,
+    opacity: 0.7,
+    roughness: 0,
+    metalness: 0,
+    transmission: 0.3
+  });
+
+const water =
+  new THREE.Mesh(
+    waterGeometry,
+    waterMaterial
+  );
+
+water.position.y = 0.62;
+
+scene.add(water);
+
+
+// ПОЛ
+const floorGeometry =
+  new THREE.PlaneGeometry(30, 30);
+
+const floorMaterial =
+  new THREE.MeshStandardMaterial({
+    color: 0x444444
+  });
+
+const floor =
+  new THREE.Mesh(
+    floorGeometry,
+    floorMaterial
+  );
+
+floor.rotation.x = -Math.PI / 2;
+
+floor.position.y = -0.62;
+
+scene.add(floor);
+
+
+// АНИМАЦИЯ
+function animate() {
+
+  requestAnimationFrame(animate);
+
+  controls.update();
+
+  renderer.render(
+    scene,
+    camera
+  );
+
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #e8dccb;
-  color: #171513;
-  overflow-x: hidden;
-}
+animate();
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 25px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-  background: rgba(232,220,203,0.75);
-  backdrop-filter: blur(12px);
-}
 
-.logo {
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: -2px;
-}
+// АДАПТАЦИЯ ПОД ЭКРАН
+window.addEventListener(
+  'resize',
+  () => {
 
-.logo span {
-  display: block;
-  font-size: 9px;
-  letter-spacing: 4px;
-  margin-top: -3px;
-  text-align: center;}
+    camera.aspect =
+      window.innerWidth /
+      window.innerHeight;
 
-nav a {
-  color: #171513;
-  text-decoration: none;
-  margin-left: 28px;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
+    camera.updateProjectionMatrix();
 
-.button {
-  background: #111;
-  color: white;
-  padding: 16px 25px;
-  border-radius: 40px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  transition: 0.3s;
-}
-.button:hover {
-  transform: scale(1.05);
-}
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
 
-.hero {
-  min-height: 100vh;
-  padding: 150px 8% 80px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
+  }
+);
 
-.hero-text {
-  width: 48%;
-  z-index: 5;
-}
+</script>
 
-.small {
-  font-size: 12px;
-  letter-spacing: 4px;
-  margin-bottom: 25px;
-}
-
-h1{
-  font-size: clamp(55px, 8vw, 110px);
-  line-height: 0.85;
-  letter-spacing: -5px;
-  font-weight: 900;
-}
-
-.hero-text p {
-  max-width: 420px;
-  margin: 35px 0;
-  line-height: 1.7;
-  color: #4b443c;
-}
-
-.scene {
-  width: 52%;
-  height: 600px;
-  position: relative;
-  perspective: 1000px;
-}
-
-.platform {position: absolute;
-  width: 380px;
-  height: 110px;
-  border-radius: 50%;
-  background: #c5b49d;
-  left:
-  
+</body>
+</html>
