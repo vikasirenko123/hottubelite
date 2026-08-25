@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STA Tattoo Studio</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #e8dccb;
+  color: #171513;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 25px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(232,220,203,0.75);
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+.logo span {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 4px;
+  margin-top: -3px;
+  text-align: center;}
+
+nav a {
+  color: #171513;
+  text-decoration: none;
+  margin-left: 28px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.button {
+  background: #111;
+  color: white;
+  padding: 16px 25px;
+  border-radius: 40px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+.button:hover {
+  transform: scale(1.05);
+}
+
+.hero {
+  min-height: 100vh;
+  padding: 150px 8% 80px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-text {
+  width: 48%;
+  z-index: 5;
+}
+
+.small {
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-bottom: 25px;
+}
+
+h1{
+  font-size: clamp(55px, 8vw, 110px);
+  line-height: 0.85;
+  letter-spacing: -5px;
+  font-weight: 900;
+}
+
+.hero-text p {
+  max-width: 420px;
+  margin: 35px 0;
+  line-height: 1.7;
+  color: #4b443c;
+}
+
+.scene {
+  width: 52%;
+  height: 600px;
+  position: relative;
+  perspective: 1000px;
+}
+
+.platform {position: absolute;
+  width: 380px;
+  height: 110px;
+  border-radius: 50%;
+  background: #c5b49d;
+  left:
+  
